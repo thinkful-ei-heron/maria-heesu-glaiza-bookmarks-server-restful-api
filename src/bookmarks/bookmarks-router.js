@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const xss = require('xss');
 const { isWebUri } = require('valid-url');
@@ -67,7 +68,7 @@ bookmarksRouter
         logger.info(`Bookmark with id ${bookmark.id} created`);
         res
         .status(201)
-        .location(`/bookmarks/${bookmark.id}`)
+        .location(path.posix.join(req.originalUrl) + `/${bookmark.id}`)
         .json(serializeBookmark(bookmark));
       })
       .catch(next)
@@ -105,8 +106,30 @@ bookmarksRouter
             logger.info(`Bookmark with id ${bookmarkId} deleted.`);
             res.status(204).end();
         })
-        .catch(next);
+        .catch(next)
+    })
+    .patch(jsonParser, (req, res, next) => {
+        const { title, url, description, rating } = req.body;
+        const bookmarkToUpdate = { title, url, description, rating };
       
+        const numberOfValues = Object.values(bookmarkToUpdate).filter(Boolean).length;
+          if (numberOfValues === 0)
+            return res.status(400).json({
+              error: {
+                message: `Request body must content either 'title', 'url', 'description' or 'rating'`
+            }
+          });
+      
+        const knexInstance = req.app.get('db');
+        ArticlesService.updateArticle(
+          knexInstance,
+          req.params.bookmarkId,
+          bookmarkToUpdate
+        )
+          .then(numRowsAffected => {
+            res.status(204).end();
+          })
+          .catch(next);
 });
 
 module.exports = bookmarksRouter;
