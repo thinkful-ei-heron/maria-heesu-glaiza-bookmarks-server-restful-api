@@ -121,7 +121,7 @@ bookmarksRouter
           });
       
         const knexInstance = req.app.get('db');
-        ArticlesService.updateArticle(
+        BookmarkService.updateBookmark(
           knexInstance,
           req.params.bookmarkId,
           bookmarkToUpdate
