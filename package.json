@@ -1,5 +1,5 @@
 {
-  "name": "c15-bookmarks-server",
+  "name": "bookmarks-server-restful-api",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
