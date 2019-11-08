@@ -1,3 +1,0 @@
-[submodule "bookmark-client"]
-	path = bookmark-client
-	url = https://github.com/glaizawagner/bookmarks-client.git
