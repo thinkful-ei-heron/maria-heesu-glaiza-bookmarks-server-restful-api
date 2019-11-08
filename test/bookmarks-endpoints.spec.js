@@ -263,7 +263,7 @@ describe('Bookmarks Endpoints', function() {
     }); //end of DELETE
 
     //PATCH
-    describe.only(`PATCH /api/bookmarks/:bookmarkId`, () => {
+    describe(`PATCH /api/bookmarks/:bookmarkId`, () => {
       context(`Given no bookmarks`, () => {
         it(`responds with 404`, () => {
           const bookmarkId = 123456;
@@ -321,33 +321,33 @@ describe('Bookmarks Endpoints', function() {
             })
         })
   
-        // it(`responds with 204 when updating only a subset of fields`, () => {
-        //   const idToUpdate = 2
-        //   const updateBookmark = {
-        //     title: 'updated bookmark title',
+        it(`responds with 204 when updating only a subset of fields`, () => {
+          const idToUpdate = 2
+          const updateBookmark = {
+            title: 'updated bookmark title',
 
-        //   }
-        //   const expectedBookmark = {
-        //     ...testBookmarks[idToUpdate - 1],
-        //     ...updateBookmark
-        //   }
+          }
+          const expectedBookmark = {
+            ...testBookmarks[idToUpdate - 1],
+            ...updateBookmark
+          }
   
-        //   return supertest(app)
-        //     .patch(`/api/bookmarks/${idToUpdate}`)
-        //     .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
-        //     .send({
-        //       ...updateBookmark,
-        //       fieldToIgnore: 'should not be in GET response'
-        //     })
+          return supertest(app)
+            .patch(`/api/bookmarks/${idToUpdate}`)
+            .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+            .send({
+              ...updateBookmark,
+              fieldToIgnore: 'should not be in GET response'
+            })
             
-        //     .expect(204)
-        //     .then(res =>
-        //       supertest(app)
-        //         .get(`/api/bookmarks/${idToUpdate}`)
-        //         .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
-        //         .expect(expectedBookmark)
-        //     )
-        // })
+            .expect(204)
+            .then(res =>
+              supertest(app)
+                .get(`/api/bookmarks/${idToUpdate}`)
+                .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+                .expect(expectedBookmark)
+            )
+        })
       })
     });//end of PATCH
 });
